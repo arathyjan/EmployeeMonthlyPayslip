@@ -50,7 +50,7 @@ public class EmployeeMonthlyPayslipTest {
         ArgumentCaptor<Payslip> payslipCapture = ArgumentCaptor.forClass(Payslip.class);
         verify(payslipFileWriter).print(payslipCapture.capture());
 
-        assertEquals("David Rudd,01 March – 31 March,5004,922,4082,450", payslipCapture.getAllValues().get(0).toString());
+        assertEquals("David Rudd,01 March - 31 March,5004,922,4082,450", payslipCapture.getAllValues().get(0).toString());
     }
 
 }

@@ -11,7 +11,7 @@ public class PaymentPeriodTest {
 
     @Test
     public void parsePaymentperiodStringToInstance() {
-        PaymentPeriod paymentPeriod = PaymentPeriod.createInstance("01 March – 31 March");
+        PaymentPeriod paymentPeriod = PaymentPeriod.createInstance("01 March - 31 March");
 
         assertEquals(2013, paymentPeriod.getStartDate().getYear());
         assertEquals(2, paymentPeriod.getStartDate().getMonth());
@@ -24,7 +24,7 @@ public class PaymentPeriodTest {
 
     @Test
     public void parsePaymentperiodStringToInstanceWithYear2012IfBetweenJulytoDecember() {
-        PaymentPeriod paymentPeriod = PaymentPeriod.createInstance("01 July – 31 July");
+        PaymentPeriod paymentPeriod = PaymentPeriod.createInstance("01 July - 31 July");
 
         assertEquals(2012, paymentPeriod.getStartDate().getYear());
         assertEquals(2012, paymentPeriod.getEndDate().getYear());
@@ -32,7 +32,7 @@ public class PaymentPeriodTest {
 
     @Test
     public void parsePaymentperiodStringToInstanceWithYear2013IfBetweenJantoJune() {
-        PaymentPeriod paymentPeriod = PaymentPeriod.createInstance("01 Jan – 31 Jan");
+        PaymentPeriod paymentPeriod = PaymentPeriod.createInstance("01 Jan - 31 Jan");
 
         assertEquals(2013, paymentPeriod.getStartDate().getYear());
         assertEquals(2013, paymentPeriod.getEndDate().getYear());
@@ -45,6 +45,6 @@ public class PaymentPeriodTest {
 
     @Test(expected = BadInputException.class)
     public void throwExceptionWhenDateFormatIsWrong() {
-        PaymentPeriod.createInstance("01/Jan – 31/Jan");
+        PaymentPeriod.createInstance("01/Jan - 31/Jan");
     }
 }

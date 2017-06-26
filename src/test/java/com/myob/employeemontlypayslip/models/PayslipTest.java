@@ -15,7 +15,7 @@ public class PayslipTest {
 
         Payslip payslip = Payslip.createInstance(employee);
 
-        assertEquals("David Rudd,01 March – 31 March,5004,922,4082,450", payslip.toString());
+        assertEquals("David Rudd,01 March - 31 March,5004,922,4082,450", payslip.toString());
     }
 
 }
