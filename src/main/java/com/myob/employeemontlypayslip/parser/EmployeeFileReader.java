@@ -1,4 +1,4 @@
-package com.myob.employeemontlypayslip.IOReaderWriter;
+package com.myob.employeemontlypayslip.parser;
 
 import com.myob.employeemontlypayslip.models.Employee;
 

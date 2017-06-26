@@ -1,9 +1,9 @@
 package com.myob.employeemontlypayslip.IOReaderWriter;
 
 import com.myob.employeemontlypayslip.models.Employee;
+import com.myob.employeemontlypayslip.parser.EmployeeFileReader;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;

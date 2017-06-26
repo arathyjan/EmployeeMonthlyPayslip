@@ -1,7 +1,7 @@
 package com.myob.employeemontlypayslip;
 
-import com.myob.employeemontlypayslip.IOReaderWriter.EmployeeFileReader;
-import com.myob.employeemontlypayslip.IOReaderWriter.PayslipFileWriter;
+import com.myob.employeemontlypayslip.parser.EmployeeFileReader;
+import com.myob.employeemontlypayslip.parser.PayslipFileWriter;
 import com.myob.employeemontlypayslip.models.Employee;
 import com.myob.employeemontlypayslip.models.PaymentPeriod;
 import com.myob.employeemontlypayslip.models.Payslip;
