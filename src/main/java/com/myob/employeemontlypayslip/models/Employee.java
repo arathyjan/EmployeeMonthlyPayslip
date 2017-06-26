@@ -1,6 +1,9 @@
 package com.myob.employeemontlypayslip.models;
 
+import com.myob.employeemontlypayslip.exceptions.BadInputException;
+
 public class Employee {
+    private static final String CSV_SEPARATOR = ",";
     private String firstName;
     private String lastName;
     private Double annualSalary;
@@ -16,14 +19,27 @@ public class Employee {
     }
 
     public static Employee createInstance(String employee) {
-        String[] details = employee.split(",");
+        String[] details = employee.split(CSV_SEPARATOR);
         String firstName = details[0];
         String lastName = details[1];
         double annualSalary = parseAnnualSalary(details[2]);
         double superRate = parseSuperRate(details[3]);
         PaymentPeriod paymentPeriod = PaymentPeriod.createInstance(details[4]);
 
+        validateInputValues(annualSalary, superRate);
+
         return new Employee(firstName, lastName, annualSalary, superRate, paymentPeriod);
+    }
+
+    private static void validateInputValues(double annualSalary, double superRate) {
+        if(invalidInput(annualSalary, superRate)) {
+            String exceptionMessage = annualSalary < 0 ? "annual salary is less than 0" : "super rate should be between 0 and 50 inclusive";
+            throw new BadInputException("Bad input " + exceptionMessage);
+        }
+    }
+
+    private static boolean invalidInput(double annualSalary, double superRate) {
+        return annualSalary < 0 || superRate < 0 || superRate > 50;
     }
 
     public String getFirstName() {

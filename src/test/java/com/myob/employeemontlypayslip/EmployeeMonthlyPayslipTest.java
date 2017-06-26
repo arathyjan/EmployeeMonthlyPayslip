@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -32,20 +35,20 @@ public class EmployeeMonthlyPayslipTest {
     }
 
     @Test
-    public void testPayslipCreationForInput() {
+    public void testPayslipCreationForInput() throws IOException, URISyntaxException {
         PaymentPeriod paymentPeriod = new PaymentPeriod(new Date(2013, 2, 1), new Date(2013, 2, 31));
         Employee employee = new Employee("David", "Rudd", 60050.0, 9.0, paymentPeriod);
 
         List<Employee> employeeList = Arrays.asList(employee);
-        when(employeeFileReader.readFile("input.txt")).thenReturn(employeeList);
-        when(payslipFileWriter.write(any(Payslip.class))).thenReturn(true);
+        when(employeeFileReader.readFile()).thenReturn(employeeList);
+        when(payslipFileWriter.print(any(Payslip.class))).thenReturn(true);
 
-        EmployeeMonthlyPayslip employeeMonthlyPayslip = new EmployeeMonthlyPayslip("input.txt", employeeFileReader, payslipFileWriter);
+        EmployeeMonthlyPayslip employeeMonthlyPayslip = new EmployeeMonthlyPayslip(employeeFileReader, payslipFileWriter);
         employeeMonthlyPayslip.generatePayslips();
 
-        verify(employeeFileReader).readFile("input.txt");
+        verify(employeeFileReader).readFile();
         ArgumentCaptor<Payslip> payslipCapture = ArgumentCaptor.forClass(Payslip.class);
-        verify(payslipFileWriter).write(payslipCapture.capture());
+        verify(payslipFileWriter).print(payslipCapture.capture());
 
         assertEquals("David Rudd,01 March – 31 March,5004,922,4082,450", payslipCapture.getAllValues().get(0).toString());
     }

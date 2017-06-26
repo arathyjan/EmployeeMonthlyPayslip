@@ -1,16 +1,35 @@
 package com.myob.employeemontlypayslip.models;
 
-public class IncomeTax {
-    public static Double calculateIncomeTax(Double income) {
-        if(income <= 18200)
-            return  0.0;
-        else if(income <= 37000)
-            return  (income - 18200) * 0.19;
-        else if(income <= 80000)
-            return  3572 + (income - 37000) * 0.325;
-        else if(income <= 180000)
-            return 17547 + (income - 80000) * 0.37;
-        else
-            return 54547 + (income - 180000) * 0.45;
+import java.util.ArrayList;
+import java.util.List;
+
+class IncomeTax {
+    private static final List<IncomeTaxSlab> slabs = generateIncomeTaxSlab();
+
+    static Double calculateIncomeTax(Double income) {
+        IncomeTaxSlab incomeTaxSlab = findIncomeTaxSlab(income);
+        return calculateIncomeTaxForSlab(incomeTaxSlab, income);
+    }
+
+    private static Double calculateIncomeTaxForSlab(IncomeTaxSlab incomeTaxSlab, Double income) {
+        return incomeTaxSlab.calculateIncomeTaxForSlab.apply(income);
+    }
+
+    private static IncomeTaxSlab findIncomeTaxSlab(Double income) {
+        return slabs
+                .stream()
+                .filter((slab) -> slab.isIncomeSlab.test(income))
+                .findFirst()
+                .get();
+    }
+
+    private static List generateIncomeTaxSlab() {
+        List<IncomeTaxSlab> slabs = new ArrayList<>();
+        slabs.add(new IncomeTaxSlab(income -> income > 0 && income <= 18200, income -> 0.0));
+        slabs.add(new IncomeTaxSlab(income -> income > 18200 && income <= 37000, income -> (income - 18200) * .19));
+        slabs.add(new IncomeTaxSlab(income -> income > 37001 && income <= 80000, income -> 3572 + (income - 37000) * .325));
+        slabs.add(new IncomeTaxSlab(income -> income > 80001 && income <= 180000, income -> 17547 + (income - 80000) * .37));
+        slabs.add(new IncomeTaxSlab(income -> income > 180001, income -> 54547 + (income - 180000) * .45));
+        return slabs;
     }
 }

@@ -8,7 +8,7 @@ public class Payslip {
     private Long netIncome;
     private Long superAnnuation;
 
-    public static Payslip create(Employee employee) {
+    public static Payslip createInstance(Employee employee) {
         Payslip payslip = new Payslip();
         payslip.name = String.format("%s %s", employee.getFirstName(), employee.getLastName());
         payslip.paymentPeriod = employee.getPaymentPeriod();

@@ -5,28 +5,24 @@ import com.myob.employeemontlypayslip.IOReaderWriter.PayslipFileWriter;
 import com.myob.employeemontlypayslip.models.Employee;
 import com.myob.employeemontlypayslip.models.Payslip;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 class EmployeeMonthlyPayslip {
-    private String employeeDetailsFileName;
-    private EmployeeFileReader employeeFileReader;
-    private PayslipFileWriter payslipFileWriter;
+    private EmployeeFileReader employeeFileReader = new EmployeeFileReader();
+    private PayslipFileWriter payslipFileWriter = new PayslipFileWriter();
 
-    EmployeeMonthlyPayslip(String employeeDetailsFile) {
-        this(employeeDetailsFile, new EmployeeFileReader(), new PayslipFileWriter());
+    EmployeeMonthlyPayslip() {
     }
 
-    EmployeeMonthlyPayslip(String employeeDetailsFile, EmployeeFileReader employeeFileReader, PayslipFileWriter payslipFileWriter) {
-        this.employeeDetailsFileName = employeeDetailsFile;
+    EmployeeMonthlyPayslip(EmployeeFileReader employeeFileReader, PayslipFileWriter payslipFileWriter) {
         this.employeeFileReader = employeeFileReader;
         this.payslipFileWriter = payslipFileWriter;
     }
 
-    void generatePayslips() {
-        List<Employee> employees = employeeFileReader.readFile(employeeDetailsFileName);
-
-        for (Employee employee : employees) {
-            payslipFileWriter.write(Payslip.create(employee));
-        }
+    void generatePayslips() throws IOException, URISyntaxException {
+        List<Employee> employees = employeeFileReader.readFile();
+        employees.forEach(employee -> payslipFileWriter.print(Payslip.createInstance(employee)));
     }
 }

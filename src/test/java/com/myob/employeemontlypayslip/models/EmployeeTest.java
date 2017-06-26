@@ -1,6 +1,9 @@
 package com.myob.employeemontlypayslip.models;
 
+import com.myob.employeemontlypayslip.exceptions.BadInputException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.Date;
 
@@ -18,4 +21,18 @@ public class EmployeeTest {
         assertEquals(expectedEmployee.toString(), employee.toString());
     }
 
+    @Test(expected = BadInputException.class)
+    public void throwBadInputExceptionIfAnnualSalaryIsNegactiveNo() throws Exception{
+        Employee.createInstance("David,Rudd,-60050,9%,01 March – 31 March");
+    }
+
+    @Test(expected = BadInputException.class)
+    public void throwBadInputExceptionIfrateIsLesserThan0() {
+        Employee.createInstance("David,Rudd,60050,-9%,01 March – 31 March");
+    }
+
+    @Test(expected = BadInputException.class)
+    public void throwBadInputExceptionIfrateIsGreaterThan50() {
+        Employee.createInstance("David,Rudd,60050,55%,01 March – 31 March");
+    }
 }
